@@ -51,7 +51,7 @@ Once the compilation completes successfully, a **libAuroraPlugin.so** file will 
 Before running the simulator, a symbolic link will have to be made in `/usr/lib` to the libPluginUtilities.so file that is stored in the utilities folder of the AuroraPlugin directory.
 To make this link, type the following into terminal.
 
-`ln -s <Path>/Utilities/libPluginUtilties.so /usr/lib/libPluginUtilities.so`
+`ln -s <Path>/Utilities/libPluginUtilities.so /usr/lib/libPluginUtilities.so`
 
 where _Path_ is the absolute path to the Aurora Plugin directory on your computer.
 
