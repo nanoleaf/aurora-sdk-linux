@@ -34,7 +34,48 @@ To deactivate the virtual environment:
 
 `deactivate`
 
+## Common Errors
+If you encounter the following error message during installation:
+`src/_portaudiomodule.c:28:20: fatal error: Python.h: No such file or directory`
+
+You are missing the `python-dev` package. Install it (e.g., on Ubuntu by):
+
+`sudo apt-get install python-dev` for python 2.x
+
+`sudo apt-get install python3-dev` for python 3.x
+
+If you encounter the following error message while trying to run Plugin Builder (see below):
+`ImportError: No module named '_tkinter', please install the python3-tk package`
+
+You are missing the `python-tk` package. Install it (e.g., on ubuntu by):
+
+`sudo apt-get install python-tk` for python 2.x
+
+`sudo apt-get install python3-tk` for python 3.x
+
+If you are encountering an error installing pyaudio because you are missing portaudio, install it with the following:
+
+`sudo apt-get install portaudio19-dev`
+
+
 # Testing Your Plugin
+## Plugin Builder
+A plugin builder tool can be used to simplify the process of:
+
+* _Pairing with an Aurora_
+* _Using the Light Panels simulator_
+* _Using plugin options_
+* _Creating a palette_
+* _Building and running plugins_
+
+In the directory plugin-builder-tool/ simply run the command: `python main.py`. A GUI will appear that prompts you to enter the ip address of the testing Aurora, your desired palette, and the absolute path to your plugin in the directory AuroraPluginTemplate/.
+
+A GUI also exists to create Plugin Options for your plugin. The GUI reads and writes the given Plugin Options to the PluginOptions.h of whichever plugin is selected by the plugin location field.
+
+Note that the Plugin Builder tool will output information to the terminal. Please check the terminal output for instructions, e.g., during pairing with Aurora or debug printouts from your plugin.
+
+If you do not want to use the plugin builder tool, the steps to testing your plugin are below.
+
 ## Compile Your Plugin
 The _AuroraPlugin_ Framework comes with a makefile and a utilities library.
 Once you have completed the implementation of your plugin, you can build it using the makefile in the Debug folder. If any additional libraries have been used, the makefile must be modified to link those libraries in as well during linking.
@@ -46,6 +87,7 @@ To compile, use a terminal window and change your working directory to the Plugi
 `make`
 
 Once the compilation completes successfully, a **libAuroraPlugin.so** file will be placed in the Debug folder which can be used with the simulator
+
 ## Run Your Plugin
 
 Before running the simulator, a symbolic link will have to be made in `/usr/lib` to the libPluginUtilities.so file that is stored in the utilities folder of the AuroraPlugin directory.
@@ -61,27 +103,26 @@ Open up a terminal and change your working directory to the PluginSDK folder. Th
 
 `python music_processor.py`
 
-Open up another terminal to run the sound module simulator, enter:
+If you want to use the Light Panels simulator and your Python version is 2.7, enter:
+`python LightPanelsSimulator/py27/light-panels-simulator.py`
+If you want to use the Light Panels simulator and your Python version is 3.4+, enter:
+`python LightPanelsSimulator/py3/light-panels-simulator.py`
 
-`./SoundModuleSimulator -p <absolute path to .so file> -i <ip address>`
+Open up another terminal to run the animation processor, enter:
+
+`./AnimationProcessor -p <absolute path to .so file> -i <ip address>`
+
+If you are using the Light Panels simulator the ip address is not needed.
+Instead, to use the animation processor with the Light Panels simulator, enter:
+
+`./AnimationProcessor -p <absolute path to .so file> -s`
 
 If you generated a color palette (see Plugin Builder), enter:
 
-`./SoundModuleSimulator -p <absolute path to .so file> -i <ip address> -cp <absolute path to palette file>`
+`./AnimationProcessor -p <absolute path to .so file> -i <ip address> -cp <absolute path to palette file>`
 
 The *.so* file is the compiled plugin that you wish to run on the Aurora. 
 
 The IP address that you enter is the ip address of the Aurora on the local network. The ip address can be found by using [Bonjour Browser](http://www.tildesoft.com) on Linux.
 
 When using the simulator for the first time, the simulator will attempt to acquire an authentication token from the Aurora and ask the user to hold down the power button on the Aurora for 5-7 seconds. This step is not required during subsequent executions of the simulator. Note: the Simulator will only maintain authentication with one Aurora at a time.
-
-## Plugin Builder
-A plugin builder tool can be used to simplify the process of:
-
-* _Pairing with an Aurora_
-* _Creating a palette_
-* _Building and running plugins_
-
-In the directory plugin-builder-tool/ simply run the command: `python main.py`. A GUI will appear that prompts you to enter the ip address of the testing Aurora, your desired palette, and the absolute path to your plugin in the directory AuroraPluginTemplate/.
-
-Note that the Plugin Builder tool will output information to the terminal. Please check the terminal output for instructions, e.g., during pairing with Aurora or debug printouts from your plugin.
